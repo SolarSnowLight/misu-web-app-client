@@ -1,0 +1,18 @@
+
+
+@use 'src/common-styles/common';
+
+
+.btn {
+    @include common.allDefault;
+
+    background: #1F8DCD; // Blue todo extract color
+    border-radius: 4px;
+
+    color: white; // White todo extract color
+    font: 600 22px 'TT Commons';
+    padding-bottom: 0.15em;
+    text-align: center;
+
+    cursor: pointer;
+}
