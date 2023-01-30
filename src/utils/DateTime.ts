@@ -29,12 +29,20 @@ export class DateTime {
     }
 
 
-    // eg from "2022-01-01T00:00" in format yyyy-MM-ddThh:mm
+    // from "2022-01-01T00:00" in format yyyy-MM-ddThh:mm
     public static from_yyyy_MM_dd_hh_mm(date?: string){
         const match = date?.match(yyyy_MM_dd_hh_mm_pattern)
         if (match) return new DateTime(
             +match.groups!.year!, +match.groups!.month!, +match.groups!.day!,
             +match.groups!.hour!, +match.groups!.minute!
+        )
+    }
+    
+    // from "2022-01-01" in format yyyy-MM-dd
+    public static from_yyyy_MM_dd(date?: string){
+        const match = date?.match(yyyy_MM_dd_pattern)
+        if (match) return new DateTime(
+            +match.groups!.year!, +match.groups!.month!, +match.groups!.day!,
         )
     }
 
@@ -48,9 +56,17 @@ export class DateTime {
         return `${(this.year+'').padStart(4,'0')}-${(this.month+'').padStart(2,'0')}-${(this.day+'').padStart(2,'0')}T`+
             `${(this.hour+'').padStart(2,'0')}:${(this.minute+'').padStart(2,'0')}`
     }
-
+    
+    // to 01-01-2023
     to_dd_MM_yyyy(){
         return `${(this.day+'').padStart(2,'0')}-${(this.month+'').padStart(2,'0')}-${(this.year+'').padStart(4,'0')}`
+    }
+
+    // to 01-01-23
+    to_dd_MM_yy(divider = '-'){
+        return `${(this.day+'').padStart(2,'0')}${divider}`+
+          `${(this.month+'').padStart(2,'0')}${divider}`+
+          `${(this.year%100+'').padStart(2,'0')}`
     }
 
 
@@ -74,8 +90,9 @@ export class DateTime {
 }
 
 
-// месяц, день, час, минута, секунда могут быть одно-или-двухсимвольном формате
-// разделителем может служить всё что угодно в любом количестве
+// месяц, день, час, минута, секунда могут быть в одно-или-двухсимвольном формате
+// разделителем является не цифра в любом количестве
 const dd_MM_yyyy_pattern = /(?<day>\d{1,2})\D+(?<month>\d{1,2})\D+(?<year>\d{4})/
-const yyyy_MM_dd_hh_mm_pattern = /(?<year>\d{4}\D+(?<month>\d{1,2})\D+(?<day>\d{1,2})\D+(?<hour>\d{1,2})\D+(?<minute>\d{1,2}))/
+const yyyy_MM_dd_hh_mm_pattern = /(?<year>\d{4})\D+(?<month>\d{1,2})\D+(?<day>\d{1,2})\D+(?<hour>\d{1,2})\D+(?<minute>\d{1,2})/
+const yyyy_MM_dd_pattern = /(?<year>\d{4})\D+(?<month>\d{1,2})\D+(?<day>\d{1,2})/
 
